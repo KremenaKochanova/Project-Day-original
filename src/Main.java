@@ -2,14 +2,16 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args)
     {
-       chooseFormat();
+        Scanner scan = new Scanner(System.in);
+        chooseFormat();
     }
     //+++++++++++++++++++++++++++ chooseFormat()  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    static void chooseFormat() {                                                                         //metod 1
+    static int chooseFormat() {
         Scanner scan = new Scanner (System.in);
         int dd =0;
         int mm=0;
         int yyyy=0;
+        String mmm = null;
         int chooseformat = 0;
 
         System.out.println("Choose 1 for date format: dd/MM/yyyy");
@@ -21,7 +23,7 @@ public class Main {
         if (choise==1){
             chooseformat = 1;
         }else
-            if (choise==2){
+        if (choise==2){
             chooseformat = 2;
         }else
         if (choise==3){
@@ -31,33 +33,16 @@ public class Main {
             System.out.println("Wrong input!");
 
         switch (chooseformat) {
-            case 1 -> checkdatFormat1();
-            case 2 -> checkdatFormat2(mm, dd, yyyy);
-            case 3 -> checkdatFormat3(dd, null, yyyy);
-            default -> System.out.print("Invalid day");
+            case 1: checkdatFormat1(dd, mm, yyyy); break;
+            case 2: checkdatFormat2(mm, dd, yyyy); break;
+            case 3: checkdatFormat3(dd, mmm, yyyy); break;
+            default: System.out.print("Invalid day") ; break;
         }
+        return chooseformat;
     }
     //++++++++++++++++++++++++++++  check_datFormat1 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    static void checkdatFormat1() {                                            //metod 2
-        int day;
-        int  month;
-        int year;
-        Scanner scan = new Scanner (System.in);
-        System.out.print("Enter day  between 01 and 31: ");
-        day = scan.nextInt();
-        System.out.print("Enter month in number between 1 and 12: ");
-        month = scan.nextInt();
-        System.out.print("Enter year: ");
-        year = scan.nextInt();
-
-        System.out.println("The input is true!");
-        printMonth(year, month, day);                                                                   //metod 6
-        return;
-    }
-
-    //++++++++++++++++++++++++++++  check_datFormat2 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    static void checkdatFormat2(int mm, int dd, int yyyy) {                                            //metod 3
+    static void checkdatFormat1(int dd, int mm, int yyyy) {
         int day =0;
         int  month=0;
         int year=0;
@@ -72,23 +57,49 @@ public class Main {
         year = scan.nextInt();
         yyyy =  year;
 
-        if (dd > 0 || dd < 32){
+        if ((dd > 0 && dd < 32) && (mm > 0 && mm < 13) && (yyyy > 1800)){
             day=dd;
-            if (mm > 0 || mm < 13)
-                month=mm;
-            if (yyyy > 1800)
-                year=yyyy;
+            month=mm;
+            year=yyyy;
             System.out.println("The input is true!");
         }
         else
             System.out.println("Wrong input!");
-        printMonth(year, month, day);                                                                   //metod 6
+        printMonth(year, month, day);
         return;
     }
 
-    //++++++++++++++++++++++++++++  check_datFormat3 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //++++++++++++++++++++++++++++  check_datFormat2 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    static void checkdatFormat2(int mm, int dd, int yyyy) {
+        int day =0;
+        int  month=0;
+        int year=0;
+        Scanner scan = new Scanner (System.in);
+            System.out.print("Enter month in number between 1 and 12: ");
+        month = scan.nextInt();
+        mm = month;
+            System.out.print("Enter day  between 01 and 31: ");
+        day = scan.nextInt();
+        dd = day;
+           System.out.print("Enter year: ");
+        year = scan.nextInt();
+        yyyy =  year;
 
-    static void checkdatFormat3(int dd, String mmm, int yyyy) {                                        //metod 4
+        if ((dd > 0 && dd < 32) && (mm > 0 && mm < 13) && (yyyy > 1800)){
+            day=dd;
+            month=mm;
+            year=yyyy;
+            System.out.println("The input is true!");
+        }
+        else
+            System.out.println("Wrong input!");
+        printMonth(year, month, day);
+        return;
+    }
+
+//++++++++++++++++++++++++++++  check_datFormat3 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    static void checkdatFormat3(int dd, String mmm, int yyyy) {
         int day =0;
         String newmonth;
         String mm;
@@ -109,7 +120,7 @@ public class Main {
         year = scan.nextInt();
         yyyy =  year;
 
-        if (dd > 0 || dd < 32){
+        if (dd > 0 && dd < 32){
             day=dd;
         }
         for(int i =0; i<MMM.length; i++){
@@ -123,13 +134,13 @@ public class Main {
         }
         else
             System.out.println("Wrong input!");
-        printMonth(year, month, day);                                                                   //metod 6
+        printMonth(year, month, day);
         return;
     }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    static int changeMonthName(String month) {                                                          //metod 5
+    static int changeMonthName(String month) {
 
         int monthName = 0;
 
@@ -151,19 +162,19 @@ public class Main {
     }
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /** Print the calendar for a month in a year */
-    static void printMonth(int year, int month, int day) {                                              //metod 6
-        printMonthTitle(year, month, day);                                                              //metod 7
-        printMonthBody(year, month);                                                                    //metod 8
-        dayofweek( day,  month,  year);                                                                 //metod 9
+    static void printMonth(int year, int month, int day) {
+        printMonthTitle(year, month, day);
+        printMonthBody(year, month);
+        dayofweek( day,  month,  year);
     }
-    static void printMonthTitle(int year, int month, int day) {                                         //metod 7
-        System.out.println("         " + getMonthName(month) + " " + year);                             //metod 10
+    static void printMonthTitle(int year, int month, int day) {
+        System.out.println("         " + getMonthName(month) + " " + year);
         System.out.println("–––––––––––––––––––––––––––––");
         System.out.println(" Mon Tue Wed Thu Fri Sat Sun");
     }
 //----------------------------------------------------------------------------------
 
-    static String getMonthName(int month) {                                                             //metod 10
+    static String getMonthName(int month) {
         String monthName = null;
         switch (month) {
             case 1: monthName = "January"; break;
@@ -183,7 +194,7 @@ public class Main {
     }
 
     /** Print month body */
-    static void printMonthBody(int year, int month) {                                                      //metod 8
+    static void printMonthBody(int year, int month) {
         // Get start day of the week for the first date in the month
         int startDay = getStartDay(year, month);
         // Get number of days in the month
@@ -204,7 +215,7 @@ public class Main {
     }
 
     /** Get the start day of the first day in a month */
-    static int getStartDay(int year, int month) {                                                       //metod 11
+    static int getStartDay(int year, int month) {
 
         int startDay1800 = 2;
         int totalNumberOfDays = getTotalNumberOfDays(year, month);
@@ -213,10 +224,10 @@ public class Main {
         return (totalNumberOfDays + startDay1800) % 7;
     }
     /** Get the total number of days since January 1, 1800 */
-    static int getTotalNumberOfDays(int year, int month) {                                                //metod 12
+    static int getTotalNumberOfDays(int year, int month) {
 
         int total = 0;
-        //Get the total days from 1800 to year - 1
+
         for (int i = 1800; i < year; i++)
             if (isLeapYear(i))
                 total = total + 366;
@@ -231,7 +242,7 @@ public class Main {
     }
     /** Get the number of days in a month */
 
-    static int getNumberOfDaysInMonth(int year, int month) {                                               //metod 13
+    static int getNumberOfDaysInMonth(int year, int month) {
         if (month == 1 || month == 3 || month == 5 || month == 7 ||
                 month == 8 || month == 10 || month == 12)
             return 31;
@@ -244,12 +255,12 @@ public class Main {
     }
 
     /** Determine if it is a leap year */
-    static boolean isLeapYear(int year) {                                                                  //metod 14
+    static boolean isLeapYear(int year) {
         return year % 400 == 0 || (year % 4 == 0 && year % 100 != 0);
     }
     //-------------------------------------------------------------------------------------------------------------------
-    static int dayofweek( int day, int month, int year ) {                                                  //metod 9
-        int t[] = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };                                   //tomohiko sakamoto
+    static int dayofweek( int day, int month, int year ) {
+        int t[] = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
         if ( month<3 ){
             year = year - 1;
         }
@@ -343,6 +354,10 @@ public class Main {
         if (searchDay == 1  && day>0 && day<8)
         {
             System.out.println(ordinaldayName[0]+ " " + dayName + " of the month");
+        }
+        else if(searchDay == 31 && day>7 && day<15)
+        {
+            System.out.println(ordinaldayName[1] + " " + dayName + " of the month");
         }
         else if(searchDay == 1 && day>14 && day<21)
         {
